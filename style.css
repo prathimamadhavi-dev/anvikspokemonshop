@@ -1,23 +1,19 @@
 body {
   margin: 0;
-  font-family: Arial Black, Arial, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   background: #000;
-  color: #00ffcc;
+  color: #00ffe1;
   text-align: center;
 }
 
 /* HEADER */
-header {
-  padding: 40px;
-}
-
 h1 {
-  font-size: 48px;
-  text-shadow: 0 0 20px #00ffcc;
+  font-size: 44px;
+  text-shadow: 0 0 20px #00ffe1;
 }
 
 .sub {
-  color: #00aa88;
+  color: #00bfa6;
 }
 
 /* GRID */
@@ -28,31 +24,30 @@ h1 {
   padding: 30px;
 }
 
-/* CARDS */
+/* CARD */
 .card {
   background: #050505;
-  border: 2px solid #00ffcc;
-  border-radius: 15px;
+  border: 2px solid #00ffe1;
+  border-radius: 16px;
   padding: 15px;
   cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 0 15px #00ffcc22;
+  transition: 0.25s;
+  box-shadow: 0 0 15px #00ffe133;
 }
 
 .card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 30px #00ffcc;
+  transform: scale(1.07);
+  box-shadow: 0 0 30px #00ffe1;
 }
 
 .card img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .card span {
   display: block;
   margin-top: 10px;
-  font-size: 16px;
 }
 
 /* PANEL */
@@ -61,12 +56,12 @@ h1 {
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
-  background: #050505;
-  border: 2px solid #00ffcc;
-  border-radius: 15px;
+  width: 520px;
+  background: #000;
+  border: 2px solid #00ffe1;
+  border-radius: 16px;
   padding: 25px;
-  box-shadow: 0 0 40px #00ffcc55;
+  box-shadow: 0 0 40px #00ffe155;
 }
 
 .hidden {
@@ -78,59 +73,41 @@ h1 {
   width: 45%;
   padding: 15px;
   margin: 10px;
-  font-size: 16px;
   background: black;
-  border: 2px solid #00ffcc;
-  color: #00ffcc;
+  border: 2px solid #00ffe1;
+  color: #00ffe1;
   cursor: pointer;
 }
 
 .btnRow button:hover {
-  background: #00ffcc;
+  background: #00ffe1;
   color: black;
+}
+
+/* INPUTS */
+input {
+  width: 85%;
+  padding: 14px;
+  margin: 10px;
+  background: black;
+  border: 1px solid #00ffe1;
+  color: #00ffe1;
+  font-family: 'Orbitron';
 }
 
 /* FORM */
 #formArea input {
   width: 90%;
-  padding: 15px;
-  margin: 10px;
-  background: black;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-  font-size: 16px;
 }
 
+/* CLOSE */
 .closeBtn {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
   border: 2px solid red;
   color: red;
   background: black;
   cursor: pointer;
-}
-
-/* INPUTS */
-input {
-  padding: 12px;
-  margin: 10px;
-  width: 260px;
-  background: black;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-}
-
-button {
-  padding: 12px;
-  background: black;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-  cursor: pointer;
-}
-
-button:hover {
-  box-shadow: 0 0 15px #00ffcc;
 }
 
 /* ADMIN */
@@ -138,7 +115,7 @@ pre {
   text-align: left;
   width: 80%;
   margin: 20px auto;
-  background: #050505;
   padding: 15px;
-  border: 1px solid #00ffcc;
+  border: 1px solid #00ffe1;
+  background: #050505;
 }
