@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Anvik's Pokémon Shop & Trade</title>
+<title>Anvik's Pokémon Tech Market</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <h1>Anvik's Pokémon Shop & Trade</h1>
-  <p>Modern Pokémon Marketplace</p>
+  <h1>ANVIK'S POKÉMON MARKET</h1>
+  <p class="sub">NEON TRADING SYSTEM</p>
 </header>
 
 <section>
-  <h2>My Collection</h2>
+  <h2>MY COLLECTION</h2>
 
   <div class="grid">
 
@@ -24,7 +24,7 @@
     </div>
 
     <div class="card" data-name="Medicham ex 054/102">
-      <img src="https://images.pokemontcg.io/jp/054.png">
+      <img src="https://images.pokemontcg.io/sv3pt5/54.png">
       <span>Medicham ex</span>
     </div>
 
@@ -56,35 +56,39 @@
   </div>
 </section>
 
-<!-- ACTION BOX -->
+<!-- TRADE PANEL -->
 <div id="panel" class="panel hidden">
-  <h3 id="selectedCard">Selected</h3>
 
-  <button onclick="mode('trade')">Trade</button>
-  <button onclick="mode('buy')">Buy</button>
+  <h2 id="selectedCard">SELECTED</h2>
+
+  <div class="btnRow">
+    <button onclick="mode('trade')">TRADE</button>
+    <button onclick="mode('buy')">BUY</button>
+  </div>
 
   <div id="formArea"></div>
 
-  <button onclick="closePanel()">Close</button>
+  <button class="closeBtn" onclick="closePanel()">CLOSE</button>
 </div>
 
 <hr>
 
 <section>
-  <h2>Schedule Meeting</h2>
+  <h2>SCHEDULE MEETING</h2>
 
   <input id="date" type="date">
   <input id="location" placeholder="Location">
   <input id="email" placeholder="Email (optional)">
-  <button onclick="addMeeting()">Submit</button>
+  <button onclick="addMeeting()">SUBMIT</button>
 </section>
 
 <hr>
 
 <section>
-  <h2>Command Panel</h2>
-  <input id="pass" type="password" placeholder="Password">
-  <button onclick="unlock()">Unlock</button>
+  <h2>COMMAND TERMINAL</h2>
+
+  <input id="pass" type="password" placeholder="ACCESS CODE">
+  <button onclick="unlock()">UNLOCK</button>
 
   <pre id="admin" class="hidden"></pre>
 </section>
