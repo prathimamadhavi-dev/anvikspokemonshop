@@ -1,69 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pokemon Trading</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<meta charset="UTF-8">
+<title>Anvik's Pokémon Market</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="container">
-  <h1 class="glow-text">Pokemon Card Trading</h1>
+<header>
+  <h1>Anvik's Pokémon Market</h1>
+  <p class="sub">Collection Trading Hub</p>
+</header>
 
-  <!-- Cards -->
-  <div class="cards">
+<section>
+<h2>My Collection</h2>
 
-    <div class="card">
-      <img src="https://images.pokemontcg.io/swsh12/138.png">
-      <h3>Lugia V</h3>
-      <button onclick="openForm('Lugia V')">Request</button>
-    </div>
+<div class="grid">
 
-    <div class="card">
-      <img src="https://images.pokemontcg.io/sv2/188.png">
-      <h3>Alakazam EX</h3>
-      <button onclick="openForm('Alakazam EX')">Request</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.pokemontcg.io/sv3/145.png">
-      <h3>Zapdos ex</h3>
-      <button onclick="openForm('Zapdos ex')">Request</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.pokemontcg.io/sv2/1.png">
-      <h3>Pinsir ex</h3>
-      <button onclick="openForm('Pinsir ex')">Request</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.pokemontcg.io/swsh12/92.png">
-      <h3>Lycanroc V</h3>
-      <button onclick="openForm('Lycanroc V')">Request</button>
-    </div>
-
+  <!-- ZAPDOS -->
+  <div class="card" data-name="Zapdos ex 192/165">
+    <img src="https://images.pokemontcg.io/sv3pt5/192_hires.png">
+    <span>Zapdos ex</span>
   </div>
 
-  <!-- Form -->
-  <div class="card form-card" id="formBox" style="display:none;">
-    <h2 class="glow-text">Request / Schedule</h2>
+  <!-- MEDICHAM -->
+  <div class="card" data-name="Medicham ex 054/102">
+    <img src="https://images.pokemontcg.io/sv7/54_hires.png">
+    <span>Medicham ex</span>
+  </div>
 
-    <input id="name" placeholder="Your Name">
-    <input id="email" placeholder="Gmail Only">
-    <input type="datetime-local" id="time">
+  <!-- PINSIR -->
+  <div class="card" data-name="Pinsir 168/167">
+    <img src="https://images.pokemontcg.io/sv6/168_hires.png">
+    <span>Pinsir</span>
+  </div>
 
-    <select id="type">
-      <option value="Buy">Buy</option>
-      <option value="Trade">Trade</option>
-      <option value="Meeting">Meeting</option>
-    </select>
+  <!-- LUGIA -->
+  <div class="card" data-name="Lugia V SWSH301">
+    <img src="https://images.pokemontcg.io/swshp/SWSH301_hires.png">
+    <span>Lugia V</span>
+  </div>
 
-    <button onclick="submitForm()">Submit</button>
+  <!-- ALAKAZAM -->
+  <div class="card" data-name="Alakazam ex 188/165">
+    <img src="https://images.pokemontcg.io/sv3pt5/188_hires.png">
+    <span>Alakazam ex</span>
+  </div>
+
+  <!-- LYCANROC -->
+  <div class="card" data-name="Lycanroc V 091/203">
+    <img src="https://images.pokemontcg.io/swsh7/91_hires.png">
+    <span>Lycanroc V</span>
   </div>
 
 </div>
+</section>
+
+<!-- PANEL -->
+<div id="panel" class="panel hidden">
+
+<h2 id="selectedCard">Selected</h2>
+
+<div class="btnRow">
+  <button onclick="mode('trade')">Trade</button>
+  <button onclick="mode('buy')">Buy</button>
+</div>
+
+<div id="formArea"></div>
+
+<button class="closeBtn" onclick="closePanel()">Close</button>
+
+</div>
+
+<hr>
+
+<section>
+<h2>Command Panel</h2>
+
+<input id="pass" type="password" placeholder="Access Code">
+<button onclick="unlock()">Unlock</button>
+
+<pre id="admin" class="hidden"></pre>
+
+</section>
 
 <script src="script.js"></script>
 </body>
