@@ -19,15 +19,15 @@ function mode(type) {
 
   if (type === "trade") {
     area.innerHTML = `
-      <input id="tradeText" placeholder="Your trade offer">
-      <button onclick="submitTrade()">Submit Trade</button>
+      <input id="tradeText" placeholder="ENTER TRADE OFFER">
+      <button onclick="submitTrade()">SEND TRADE</button>
     `;
   }
 
   if (type === "buy") {
     area.innerHTML = `
-      <input id="buyText" placeholder="Your buy offer ($)">
-      <button onclick="submitBuy()">Submit Buy</button>
+      <input id="buyText" placeholder="ENTER BUY OFFER">
+      <button onclick="submitBuy()">SEND BUY</button>
     `;
   }
 }
@@ -38,9 +38,8 @@ function submitTrade() {
     card: selected,
     message: document.getElementById("tradeText").value
   });
-
-  save();
-  alert("Trade submitted!");
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  alert("TRADE SUBMITTED");
 }
 
 function submitBuy() {
@@ -49,9 +48,8 @@ function submitBuy() {
     card: selected,
     message: document.getElementById("buyText").value
   });
-
-  save();
-  alert("Buy submitted!");
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  alert("BUY SUBMITTED");
 }
 
 function addMeeting() {
@@ -62,11 +60,7 @@ function addMeeting() {
   });
 
   localStorage.setItem("meetings", JSON.stringify(meetings));
-  alert("Meeting added!");
-}
-
-function save() {
-  localStorage.setItem("submissions", JSON.stringify(submissions));
+  alert("MEETING STORED");
 }
 
 function unlock() {
@@ -74,11 +68,9 @@ function unlock() {
 
   if (pass === "974955isverycool21") {
     document.getElementById("admin").classList.remove("hidden");
-
     document.getElementById("admin").innerText =
-      "SUBMISSIONS:\n" + JSON.stringify(submissions, null, 2) +
-      "\n\nMEETINGS:\n" + JSON.stringify(meetings, null, 2);
+      JSON.stringify({ submissions, meetings }, null, 2);
   } else {
-    alert("Wrong password");
+    alert("ACCESS DENIED");
   }
 }
