@@ -1,142 +1,144 @@
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #f4f6fb;
-  color: #2d2d2d;
+  font-family: "Arial Black", Arial, sans-serif;
+  background: #000000;
+  color: #00ffcc;
   text-align: center;
 }
 
 /* HEADER */
 header {
   padding: 40px;
+  letter-spacing: 2px;
 }
 
 h1 {
-  font-size: 42px;
-  font-weight: 700;
+  font-size: 48px;
+  text-shadow: 0 0 15px #00ffcc;
 }
 
 .sub {
-  color: #777;
-  font-size: 16px;
+  color: #00cc99;
 }
 
 /* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
   padding: 30px;
 }
 
-/* CARD */
+/* CARD (BIGGER + TECH STYLE) */
 .card {
-  background: white;
-  border-radius: 40px; /* MASSIVE ROUNDING */
-  padding: 25px;
+  background: #050505;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 15px;
   cursor: pointer;
-  transition: 0.25s;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: 0.2s;
+  box-shadow: 0 0 10px #00ffcc33;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  transform: scale(1.08);
+  box-shadow: 0 0 25px #00ffcc;
 }
 
-/* ROUND IMAGE */
 .card img {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 35px; /* rounded image instead of square */
+  width: 100%;
+  border-radius: 10px;
 }
 
-/* CARD TEXT */
 .card span {
   display: block;
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: 600;
+  margin-top: 10px;
+  font-size: 16px;
 }
 
-/* PANEL */
+/* PANEL (BIGGER TRADE/BUY UI) */
 .panel {
   position: fixed;
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
-  background: white;
-  border-radius: 40px; /* BIG ROUND PANEL */
-  padding: 30px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  width: 450px;
+  background: #050505;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 0 30px #00ffcc55;
 }
 
 .hidden {
   display: none;
 }
 
-/* BUTTON ROW */
-.btnRow {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-/* BUTTONS */
-button {
-  border: none;
-  border-radius: 999px; /* FULL PILL BUTTONS */
-  padding: 16px 28px;
+.btnRow button {
+  width: 45%;
+  padding: 15px;
+  margin: 10px;
   font-size: 16px;
-  font-weight: 600;
+  background: black;
+  color: #00ffcc;
+  border: 2px solid #00ffcc;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-/* TRADE BUTTON */
-.btnRow button:first-child {
-  background: #6c8cff;
-  color: white;
+.btnRow button:hover {
+  background: #00ffcc;
+  color: black;
 }
 
-/* BUY BUTTON */
-.btnRow button:last-child {
-  background: #ffb347;
-  color: white;
+/* FORM */
+#formArea input {
+  width: 90%;
+  padding: 15px;
+  margin: 10px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  font-size: 16px;
 }
 
-button:hover {
-  transform: scale(1.05);
+.closeBtn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: black;
+  border: 2px solid red;
+  color: red;
+  cursor: pointer;
 }
 
 /* INPUTS */
 input {
-  width: 85%;
-  padding: 16px;
-  margin: 12px;
-  border-radius: 999px; /* ROUND INPUTS */
-  border: 2px solid #ddd;
-  background: white;
-  font-size: 15px;
+  padding: 12px;
+  margin: 10px;
+  width: 250px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
 }
 
-/* CLOSE BUTTON */
-.closeBtn {
-  width: 100%;
-  background: #ff6b6b;
-  color: white;
-  margin-top: 15px;
+button {
+  padding: 12px;
+  cursor: pointer;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+}
+
+button:hover {
+  box-shadow: 0 0 15px #00ffcc;
 }
 
 /* ADMIN */
 pre {
-  width: 85%;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 30px;
-  background: white;
   text-align: left;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin: 20px auto;
+  width: 80%;
+  background: #050505;
+  padding: 15px;
+  border: 1px solid #00ffcc;
 }
