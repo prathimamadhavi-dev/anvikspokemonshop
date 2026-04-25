@@ -38,6 +38,7 @@ function submitTrade() {
     card: selected,
     message: document.getElementById("tradeText").value
   });
+
   localStorage.setItem("submissions", JSON.stringify(submissions));
   alert("TRADE SUBMITTED");
 }
@@ -48,6 +49,7 @@ function submitBuy() {
     card: selected,
     message: document.getElementById("buyText").value
   });
+
   localStorage.setItem("submissions", JSON.stringify(submissions));
   alert("BUY SUBMITTED");
 }
@@ -69,7 +71,8 @@ function unlock() {
   if (pass === "974955isverycool21") {
     document.getElementById("admin").classList.remove("hidden");
     document.getElementById("admin").innerText =
-      JSON.stringify({ submissions, meetings }, null, 2);
+      "SUBMISSIONS:\n" + JSON.stringify(submissions, null, 2) +
+      "\n\nMEETINGS:\n" + JSON.stringify(meetings, null, 2);
   } else {
     alert("ACCESS DENIED");
   }
