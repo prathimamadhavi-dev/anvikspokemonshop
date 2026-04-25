@@ -1,43 +1,35 @@
 body {
-  margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  background: #000;
-  color: #00ffe1;
+  background: #0f172a;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
   text-align: center;
 }
 
-/* HEADER */
-h1 {
-  font-size: 44px;
-  text-shadow: 0 0 20px #00ffe1;
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
 }
 
-.sub {
-  color: #00bfa6;
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  padding: 30px;
-}
-
-/* CARD */
 .card {
-  background: #050505;
-  border: 2px solid #00ffe1;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
   padding: 15px;
-  cursor: pointer;
-  transition: 0.25s;
-  box-shadow: 0 0 15px #00ffe133;
+  margin: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  transition: 0.3s;
+  width: 200px;
 }
 
 .card:hover {
-  transform: scale(1.07);
-  box-shadow: 0 0 30px #00ffe1;
+  transform: scale(1.05);
 }
 
 .card img {
@@ -45,77 +37,33 @@ h1 {
   border-radius: 12px;
 }
 
-.card span {
-  display: block;
+button {
   margin-top: 10px;
-}
-
-/* PANEL */
-.panel {
-  position: fixed;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 520px;
-  background: #000;
-  border: 2px solid #00ffe1;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 0 40px #00ffe155;
-}
-
-.hidden {
-  display: none;
-}
-
-/* BUTTONS */
-.btnRow button {
-  width: 45%;
-  padding: 15px;
-  margin: 10px;
-  background: black;
-  border: 2px solid #00ffe1;
-  color: #00ffe1;
+  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: white;
   cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
 
-.btnRow button:hover {
-  background: #00ffe1;
-  color: black;
-}
-
-/* INPUTS */
-input {
-  width: 85%;
-  padding: 14px;
-  margin: 10px;
-  background: black;
-  border: 1px solid #00ffe1;
-  color: #00ffe1;
-  font-family: 'Orbitron';
-}
-
-/* FORM */
-#formArea input {
-  width: 90%;
-}
-
-/* CLOSE */
-.closeBtn {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid red;
-  color: red;
-  background: black;
-  cursor: pointer;
-}
-
-/* ADMIN */
-pre {
-  text-align: left;
+input, select {
+  display: block;
   width: 80%;
-  margin: 20px auto;
-  padding: 15px;
-  border: 1px solid #00ffe1;
-  background: #050505;
+  margin: 10px auto;
+  border-radius: 999px;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.glow-text {
+  color: white;
+  text-shadow: 0 0 8px white, 0 0 15px rgba(255,255,255,0.6);
+}
+
+.form-card {
+  width: 300px;
+  margin: auto;
 }
