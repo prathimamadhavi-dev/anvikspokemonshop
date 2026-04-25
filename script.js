@@ -1,79 +1,144 @@
-let selected = "";
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let meetings = JSON.parse(localStorage.getItem("meetings")) || [];
-
-document.querySelectorAll(".card").forEach(card => {
-  card.onclick = () => {
-    selected = card.dataset.name;
-    document.getElementById("selectedCard").innerText = selected;
-    document.getElementById("panel").classList.remove("hidden");
-  };
-});
-
-function closePanel() {
-  document.getElementById("panel").classList.add("hidden");
+body {
+  margin: 0;
+  font-family: Arial Black, Arial, sans-serif;
+  background: #000;
+  color: #00ffcc;
+  text-align: center;
 }
 
-function mode(type) {
-  let area = document.getElementById("formArea");
-
-  if (type === "trade") {
-    area.innerHTML = `
-      <input id="tradeText" placeholder="ENTER TRADE OFFER">
-      <button onclick="submitTrade()">SEND TRADE</button>
-    `;
-  }
-
-  if (type === "buy") {
-    area.innerHTML = `
-      <input id="buyText" placeholder="ENTER BUY OFFER">
-      <button onclick="submitBuy()">SEND BUY</button>
-    `;
-  }
+/* HEADER */
+header {
+  padding: 40px;
 }
 
-function submitTrade() {
-  submissions.push({
-    type: "TRADE",
-    card: selected,
-    message: document.getElementById("tradeText").value
-  });
-
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  alert("TRADE SUBMITTED");
+h1 {
+  font-size: 48px;
+  text-shadow: 0 0 20px #00ffcc;
 }
 
-function submitBuy() {
-  submissions.push({
-    type: "BUY",
-    card: selected,
-    message: document.getElementById("buyText").value
-  });
-
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  alert("BUY SUBMITTED");
+.sub {
+  color: #00aa88;
 }
 
-function addMeeting() {
-  meetings.push({
-    date: document.getElementById("date").value,
-    location: document.getElementById("location").value,
-    email: document.getElementById("email").value
-  });
-
-  localStorage.setItem("meetings", JSON.stringify(meetings));
-  alert("MEETING STORED");
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 30px;
 }
 
-function unlock() {
-  let pass = document.getElementById("pass").value;
+/* CARDS */
+.card {
+  background: #050505;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 15px #00ffcc22;
+}
 
-  if (pass === "974955isverycool21") {
-    document.getElementById("admin").classList.remove("hidden");
-    document.getElementById("admin").innerText =
-      "SUBMISSIONS:\n" + JSON.stringify(submissions, null, 2) +
-      "\n\nMEETINGS:\n" + JSON.stringify(meetings, null, 2);
-  } else {
-    alert("ACCESS DENIED");
-  }
+.card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px #00ffcc;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* PANEL */
+.panel {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  background: #050505;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 0 40px #00ffcc55;
+}
+
+.hidden {
+  display: none;
+}
+
+/* BUTTONS */
+.btnRow button {
+  width: 45%;
+  padding: 15px;
+  margin: 10px;
+  font-size: 16px;
+  background: black;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  cursor: pointer;
+}
+
+.btnRow button:hover {
+  background: #00ffcc;
+  color: black;
+}
+
+/* FORM */
+#formArea input {
+  width: 90%;
+  padding: 15px;
+  margin: 10px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  font-size: 16px;
+}
+
+.closeBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 2px solid red;
+  color: red;
+  background: black;
+  cursor: pointer;
+}
+
+/* INPUTS */
+input {
+  padding: 12px;
+  margin: 10px;
+  width: 260px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+}
+
+button {
+  padding: 12px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0 0 15px #00ffcc;
+}
+
+/* ADMIN */
+pre {
+  text-align: left;
+  width: 80%;
+  margin: 20px auto;
+  background: #050505;
+  padding: 15px;
+  border: 1px solid #00ffcc;
 }
