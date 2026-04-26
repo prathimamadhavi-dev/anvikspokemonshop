@@ -1,4 +1,4 @@
-emailjs.init({ publicKey: 'vhlH7Lv-q35WMm1_p' });
+emailjs.init({ publicKey: 'lEq50IuUCmlO16Mih' });
 
 const EMAILJS_SERVICE_ID = 'service_dnhtqho';
 const TEMPLATE_ID        = 'template_uawt115';
