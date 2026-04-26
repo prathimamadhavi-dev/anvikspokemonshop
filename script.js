@@ -1,7 +1,7 @@
 emailjs.init({ publicKey: 'lEq50IuUCmlO16Mih' });
  
 const EMAILJS_SERVICE_ID = 'service_dnhtqho';
-const TEMPLATE_ID = 'template_uawt115';
+const TEMPLATE_ID = 'template_uawt116';
  
 let currentCard = { name: '', num: '' };
 let currentMode = null;
@@ -175,3 +175,4 @@ function showToast(msg, isError) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
+ 
