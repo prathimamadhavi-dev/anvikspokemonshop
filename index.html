@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anvik's Pokémon Tech Market</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ANVIK'S POKÉMON MARKET</h1>
+  <p class="sub">Secure Trading Interface</p>
+</header>
+<section>
+  <h2>My Collection</h2>
+  <div class="grid">
+    <div class="card" data-name="Zapdos ex 192/165">
+      <img src="https://images.pokemontcg.io/sv3pt5/192_hires.png">
+      <span>Zapdos ex</span>
+    </div>
+    <div class="card" data-name="Medicham ex 054/102">
+      <img src="https://images.pokemontcg.io/jp/054.png">
+      <span>Medicham ex</span>
+    </div>
+    <div class="card" data-name="Pinsir 168/167">
+      <img src="https://images.pokemontcg.io/sv3pt5/168_hires.png">
+      <span>Pinsir</span>
+    </div>
+    <div class="card" data-name="Sylveon V SWSH202">
+      <img src="https://images.pokemontcg.io/swsh7/202.png">
+      <span>Sylveon V</span>
+    </div>
+    <div class="card" data-name="Lugia V SWSH301">
+      <img src="https://images.pokemontcg.io/swsh9/301.png">
+      <span>Lugia V</span>
+    </div>
+    <div class="card" data-name="Eevee V SWSH065">
+      <img src="https://images.pokemontcg.io/swsh6/65.png">
+      <span>Eevee V</span>
+    </div>
+    <div class="card" data-name="Lycanroc V 091/203">
+      <img src="https://images.pokemontcg.io/swsh7/91.png">
+      <span>Lycanroc V</span>
+    </div>
+  </div>
+</section>
+<!-- PANEL -->
+<div id="panel" class="panel hidden">
+  <h2 id="selectedCard">SELECTED</h2>
+  <div class="btnRow">
+    <button onclick="mode('trade')">TRADE</button>
+    <button onclick="mode('buy')">BUY</button>
+  </div>
+  <div id="formArea"></div>
+  <button class="closeBtn" onclick="closePanel()">CLOSE</button>
+</div>
+<hr>
+<section>
+  <h2>Schedule Secure Meeting</h2>
+  <input id="date" type="date">
+  <input id="location" placeholder="Location">
+  <input id="email" placeholder="Email (optional)">
+  <button onclick="addMeeting()">Submit</button>
+</section>
+<hr>
+<section>
+  <h2>COMMAND TERMINAL</h2>
+  <input id="pass" type="password" placeholder="Enter Access Code">
+  <button onclick="unlock()">UNLOCK</button>
+  <pre id="admin" class="hidden"></pre>
+</section>
+<script src="script.js"></script>
+</body>
+</html>
