@@ -1,4 +1,4 @@
-emailjs.init({ publicKey: 'lEq50IuUCmlO16Mih' });
+emailjs.init('lEq50IuUCmlO16Mih');
 
 const EMAILJS_SERVICE_ID = 'service_dnhtqho';
 const TEMPLATE_ID        = 'template_uawt116';
@@ -71,7 +71,7 @@ function sendRequest() {
   hideErrors();
   if (!nameVal)  { document.getElementById('nameError').style.display  = 'block'; document.getElementById('formName').style.borderColor  = '#ef4444'; valid = false; }
   if (!inputVal) { document.getElementById('inputError').style.display = 'block'; document.getElementById('formInput').style.borderColor = '#ef4444'; valid = false; }
-  if (!emailVal || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailVal)) { document.getElementById('emailError').style.display = 'block'; document.getElementById('formEmail').style.borderColor = '#ef4444'; valid = false; }
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { document.getElementById('emailError').style.display = 'block'; document.getElementById('formEmail').style.borderColor = '#ef4444'; valid = false; }
   if (!valid) return;
   const btn = document.getElementById('sendBtn');
   btn.disabled = true; btn.textContent = 'SENDING...';
@@ -110,7 +110,7 @@ function submitMeeting() {
   if (!nameVal)     { document.getElementById('err-name').style.display     = 'block'; document.getElementById('meet-name').classList.add('invalid');     valid = false; }
   if (!dateVal)     { document.getElementById('err-date').style.display     = 'block'; document.getElementById('meet-date').classList.add('invalid');     valid = false; }
   if (!locationVal) { document.getElementById('err-location').style.display = 'block'; document.getElementById('meet-location').classList.add('invalid'); valid = false; }
-  if (!emailVal || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailVal)) { document.getElementById('err-email').style.display = 'block'; document.getElementById('meet-email').classList.add('invalid'); valid = false; }
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { document.getElementById('err-email').style.display = 'block'; document.getElementById('meet-email').classList.add('invalid'); valid = false; }
   if (!valid) return;
   const btn = document.querySelector('.submit-meeting-btn');
   btn.disabled = true; btn.textContent = 'SENDING...';
