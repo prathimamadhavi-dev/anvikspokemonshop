@@ -1,4 +1,6 @@
 const WEB3FORMS_KEY = '0f563f9f-60dc-421f-ad67-ff1644bb1b9b';
+let lastSubmitTime = 0;
+const COOLDOWN_MS = 30000;
  
 let currentCard = { name: '', num: '' };
 let currentMode = null;
@@ -76,6 +78,12 @@ async function sendWeb3Form(data) {
 }
  
 async function sendRequest() {
+  const now = Date.now();
+  if (now - lastSubmitTime < COOLDOWN_MS) {
+    const secs = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+    showToast('Please wait ' + secs + 's before sending another request.', true);
+    return;
+  }
   const nameVal = document.getElementById('formName').value.trim();
   const inputVal = document.getElementById('formInput').value.trim();
   const emailVal = document.getElementById('formEmail').value.trim();
@@ -112,6 +120,7 @@ async function sendRequest() {
     });
     document.getElementById('formArea').classList.remove('open');
     document.getElementById('successMsg').style.display = 'block';
+    lastSubmitTime = Date.now();
     showToast('Request sent!', false);
     setTimeout(closeModal, 2000);
   } catch (err) {
@@ -124,6 +133,12 @@ async function sendRequest() {
 }
  
 async function submitMeeting() {
+  const now = Date.now();
+  if (now - lastSubmitTime < COOLDOWN_MS) {
+    const secs = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+    showToast('Please wait ' + secs + 's before sending another request.', true);
+    return;
+  }
   const nameVal = document.getElementById('meet-name').value.trim();
   const dateVal = document.getElementById('meet-date').value;
   const locationVal = document.getElementById('meet-location').value.trim();
@@ -168,6 +183,7 @@ async function submitMeeting() {
       date: dateVal,
       location: locationVal + (noteVal ? ' — Note: ' + noteVal : ''),
     });
+    lastSubmitTime = Date.now();
     showToast('Meeting request sent!', false);
     ['meet-name', 'meet-date', 'meet-location', 'meet-email', 'meet-note'].forEach(id => document.getElementById(id).value = '');
   } catch (err) {
@@ -187,3 +203,4 @@ function showToast(msg, isError) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
+ 
