@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anvik's Pokémon Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <svg class="pokeball-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(129,140,248,0.6)" stroke-width="3"/>
+      <path d="M2 50 Q2 2 50 2 Q98 2 98 50" fill="rgba(244,114,182,0.15)" stroke="none"/>
+      <path d="M2 50 Q2 98 50 98 Q98 98 98 50" fill="rgba(129,140,248,0.15)" stroke="none"/>
+      <line x1="2" y1="50" x2="98" y2="50" stroke="rgba(129,140,248,0.5)" stroke-width="3"/>
+      <circle cx="50" cy="50" r="14" fill="#080810" stroke="rgba(129,140,248,0.7)" stroke-width="3"/>
+      <circle cx="50" cy="50" r="7" fill="rgba(244,114,182,0.7)"/>
+    </svg>
+    <h1>ANVIK'S POKÉMON MARKET</h1>
+    <p class="header-sub">Secure Trading Interface</p>
+    <div class="header-line"></div>
+  </header>
+
+  <section>
+    <p class="section-title">My Collection</p>
+    <div class="grid">
+
+      <div class="card" data-name="Zapdos ex" data-num="192/165 · 151">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/MEW/MEW_192_R_EN_LG.png" alt="Zapdos ex" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Zapdos ex</div>
+          <div class="card-num">192/165 · 151</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Medicham ex" data-num="054/102 · Stellar Miracle (JPN)">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SV7/SV7_054_R_JA_LG.png" MEDICHAM_PLACEHOLDER>
+        <div class="card-info">
+          <div class="card-name">Medicham ex</div>
+          <div class="card-num">054/102 · Stellar Miracle (JPN)</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Pinsir" data-num="168/167 · Twilight Masquerade">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/TWM/TWM_168_R_EN_LG.png" alt="Pinsir" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Pinsir</div>
+          <div class="card-num">168/167 · Twilight Masquerade</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Sylveon V" data-num="SWSH202 · Promo">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SP/SP_202_R_EN_LG.png" alt="Sylveon V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Sylveon V</div>
+          <div class="card-num">SWSH202 · Promo</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Lugia V" data-num="SWSH301 · Promo (~$10)">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SP/SP_301_R_EN_LG.png" alt="Lugia V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Lugia V</div>
+          <div class="card-num">SWSH301 · Promo (~$10)</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Alakazam ex" data-num="188/165 · 151">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/MEW/MEW_188_R_EN_LG.png" alt="Alakazam ex" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Alakazam ex</div>
+          <div class="card-num">188/165 · 151</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Lycanroc V" data-num="091/203 · Evolving Skies">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/EVS/EVS_091_R_EN_LG.png" alt="Lycanroc V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Lycanroc V</div>
+          <div class="card-num">091/203 · Evolving Skies</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <p class="section-title">Schedule a Meeting</p>
+    <div class="meeting-form">
+      <div class="form-group">
+        <label for="meet-name">Your Name <span style="color:var(--glow-pink)">*</span></label>
+        <input type="text" id="meet-name" placeholder="Your name">
+        <span class="field-error" id="err-name">Please enter your name</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-date">Date <span style="color:var(--glow-pink)">*</span></label>
+        <input type="date" id="meet-date">
+        <span class="field-error" id="err-date">Please select a date</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-location">Location <span style="color:var(--glow-pink)">*</span></label>
+        <input type="text" id="meet-location" placeholder="e.g. Local game store">
+        <span class="field-error" id="err-location">Please enter a location</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-email">Your Email <span style="color:var(--glow-pink)">*</span></label>
+        <input type="email" id="meet-email" placeholder="your@email.com">
+        <span class="field-error" id="err-email">Please enter a valid email</span>
+      </div>
+      <div class="form-group full-width">
+        <label for="meet-note">Note (optional)</label>
+        <input type="text" id="meet-note" placeholder="Any message for Anvik?">
+      </div>
+      <button class="submit-meeting-btn" onclick="submitMeeting()">SCHEDULE MEETING</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="modal-card-name" id="modalCardName">—</div>
+    <div class="modal-card-num" id="modalCardNum">—</div>
+
+    <div class="modal-btns">
+      <button class="modal-btn trade-btn" id="tradeBtn" onclick="setMode('trade')">⇄ TRADE</button>
+      <button class="modal-btn buy-btn" id="buyBtn" onclick="setMode('buy')">$ BUY</button>
+    </div>
+
+    <div class="form-area" id="formArea">
+      <label class="form-label">Your Name <span style="color:var(--glow-pink)">*</span></label>
+      <input type="text" id="formName" placeholder="Your name">
+      <span class="error-msg" id="nameError">Please enter your name</span>
+
+      <label class="form-label" id="formLabel">Trade Offer</label>
+      <textarea id="formInput" rows="3" placeholder="Describe your offer..."></textarea>
+      <span class="error-msg" id="inputError">Please fill in this field</span>
+
+      <label class="form-label">Your Email <span style="color:var(--glow-pink)">*</span></label>
+      <input type="email" id="formEmail" placeholder="your@email.com">
+      <span class="error-msg" id="emailError">Please enter a valid email</span>
+
+      <button class="send-btn" id="sendBtn" onclick="sendRequest()">SEND REQUEST</button>
+    </div>
+
+    <div class="success-msg" id="successMsg">✓ REQUEST SENT SUCCESSFULLY</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  ANVIK'S POKÉMON MARKET · SECURE TRADING INTERFACE
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
