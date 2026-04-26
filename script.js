@@ -1,7 +1,4 @@
-emailjs.init({ publicKey: 'lEq50IuUCmlO16Mih' });
- 
-const EMAILJS_SERVICE_ID = 'service_dnhtqho';
-const TEMPLATE_ID = 'template_uawt116';
+const WEB3FORMS_KEY = '0f563f9f-60dc-421f-ad67-ff1644bb1b9b';
  
 let currentCard = { name: '', num: '' };
 let currentMode = null;
@@ -67,7 +64,18 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
  
-function sendRequest() {
+async function sendWeb3Form(data) {
+  const response = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ access_key: WEB3FORMS_KEY, ...data })
+  });
+  const result = await response.json();
+  if (!result.success) throw new Error(result.message || 'Submission failed');
+  return result;
+}
+ 
+async function sendRequest() {
   const nameVal = document.getElementById('formName').value.trim();
   const inputVal = document.getElementById('formInput').value.trim();
   const emailVal = document.getElementById('formEmail').value.trim();
@@ -92,28 +100,30 @@ function sendRequest() {
   const btn = document.getElementById('sendBtn');
   btn.disabled = true;
   btn.textContent = 'SENDING...';
-  emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_ID, {
-    user_name: nameVal,
-    user_email: emailVal,
-    card: currentCard.name + ' · ' + currentCard.num,
-    type: currentMode === 'trade' ? 'TRADE' : 'BUY',
-    time: new Date().toLocaleString(),
-    location: currentMode === 'trade' ? 'Trade offer: ' + inputVal : 'Buy offer: ' + inputVal,
-  }).then(() => {
+  try {
+    await sendWeb3Form({
+      subject: 'New Request — ' + currentCard.name,
+      name: nameVal,
+      email: emailVal,
+      card: currentCard.name + ' · ' + currentCard.num,
+      type: currentMode === 'trade' ? 'TRADE' : 'BUY',
+      time: new Date().toLocaleString(),
+      details: currentMode === 'trade' ? 'Trade offer: ' + inputVal : 'Buy offer: ' + inputVal,
+    });
     document.getElementById('formArea').classList.remove('open');
     document.getElementById('successMsg').style.display = 'block';
     showToast('Request sent!', false);
     setTimeout(closeModal, 2000);
-  }).catch(err => {
-    console.error('EmailJS error:', JSON.stringify(err));
-    showToast('Error ' + (err.status || '') + ': ' + (err.text || 'check console'), true);
-  }).finally(() => {
+  } catch (err) {
+    console.error('Web3Forms error:', err);
+    showToast('Error: ' + err.message, true);
+  } finally {
     btn.disabled = false;
     btn.textContent = currentMode === 'trade' ? 'SEND TRADE OFFER' : 'SEND BUY OFFER';
-  });
+  }
 }
  
-function submitMeeting() {
+async function submitMeeting() {
   const nameVal = document.getElementById('meet-name').value.trim();
   const dateVal = document.getElementById('meet-date').value;
   const locationVal = document.getElementById('meet-location').value.trim();
@@ -148,23 +158,25 @@ function submitMeeting() {
   const btn = document.querySelector('.submit-meeting-btn');
   btn.disabled = true;
   btn.textContent = 'SENDING...';
-  emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_ID, {
-    user_name: nameVal,
-    user_email: emailVal,
-    card: 'N/A — Meeting Request',
-    type: 'MEETING',
-    time: dateVal,
-    location: locationVal + (noteVal ? ' — Note: ' + noteVal : ''),
-  }).then(() => {
+  try {
+    await sendWeb3Form({
+      subject: 'Meeting Request from ' + nameVal,
+      name: nameVal,
+      email: emailVal,
+      card: 'N/A — Meeting Request',
+      type: 'MEETING',
+      date: dateVal,
+      location: locationVal + (noteVal ? ' — Note: ' + noteVal : ''),
+    });
     showToast('Meeting request sent!', false);
     ['meet-name', 'meet-date', 'meet-location', 'meet-email', 'meet-note'].forEach(id => document.getElementById(id).value = '');
-  }).catch(err => {
-    console.error('EmailJS error:', JSON.stringify(err));
-    showToast('Error ' + (err.status || '') + ': ' + (err.text || 'check console'), true);
-  }).finally(() => {
+  } catch (err) {
+    console.error('Web3Forms error:', err);
+    showToast('Error: ' + err.message, true);
+  } finally {
     btn.disabled = false;
     btn.textContent = 'SCHEDULE MEETING';
-  });
+  }
 }
  
 function showToast(msg, isError) {
@@ -175,4 +187,3 @@ function showToast(msg, isError) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
- 
