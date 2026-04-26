@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anvik's Pokémon Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<style>
+:root {
+  --bg: #080810;
+  --card-bg: #0a0a18;
+  --border: rgba(99,102,241,0.35);
+  --glow-purple: #818cf8;
+  --glow-pink: #f472b6;
+  --glow-teal: #34d399;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #818cf8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99,102,241,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(244,114,182,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 60% 30%, rgba(52,211,153,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 1;
+}
+.container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+header { text-align: center; padding: 64px 24px 48px; }
+.pokeball-icon { width: 48px; height: 48px; display: inline-block; margin-bottom: 16px; animation: spin 8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #818cf8 0%, #f472b6 50%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.header-sub { font-size: 14px; letter-spacing: 6px; color: var(--muted); text-transform: uppercase; font-family: 'Orbitron', monospace; }
+.header-line { width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 20px auto 0; }
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; padding-bottom: 60px; }
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 14px 14px 18px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(129,140,248,0.1), transparent 50%, rgba(244,114,182,0.08));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--glow-purple); box-shadow: 0 20px 60px rgba(129,140,248,0.25), 0 0 30px rgba(129,140,248,0.1); }
+.card:hover::before { opacity: 1; }
+.card img { width: 100%; border-radius: 12px; display: block; transition: transform 0.3s; }
+.card:hover img { transform: scale(1.03); }
+.card-info { margin-top: 12px; text-align: center; }
+.card-name { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; color: var(--text); letter-spacing: 1px; }
+.card-num { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.card-click-hint { font-size: 10px; color: var(--accent); margin-top: 6px; opacity: 0; transition: opacity 0.3s; letter-spacing: 1px; text-transform: uppercase; }
+.card:hover .card-click-hint { opacity: 1; }
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal {
+  background: #0d0d1f;
+  border: 1px solid rgba(129,140,248,0.5);
+  border-radius: 24px;
+  padding: 32px;
+  width: 420px;
+  max-width: calc(100vw - 48px);
+  position: relative;
+  box-shadow: 0 0 80px rgba(129,140,248,0.15);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+}
+.modal-overlay.active .modal { transform: scale(1) translateY(0); }
+.modal-card-name { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.modal-card-num { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-bottom: 24px; }
+.modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.modal-btn {
+  padding: 14px; border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  font-family: 'Orbitron', monospace; font-size: 12px;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all 0.2s; font-weight: 700;
+}
+.modal-btn:hover, .modal-btn.active { background: rgba(129,140,248,0.15); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px rgba(129,140,248,0.2); }
+.modal-btn.buy-btn:hover, .modal-btn.buy-btn.active { background: rgba(244,114,182,0.12); border-color: var(--glow-pink); color: var(--glow-pink); box-shadow: 0 0 20px rgba(244,114,182,0.2); }
+.form-area { overflow: hidden; max-height: 0; transition: max-height 0.35s cubic-bezier(0.23,1,0.32,1); }
+.form-area.open { max-height: 400px; }
+.form-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; font-family: 'Orbitron', monospace; }
+.modal input, .modal textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: none;
+  margin-bottom: 12px;
+}
+.modal input:focus, .modal textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(129,140,248,0.1); }
+.send-btn {
+  width: 100%; padding: 14px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  color: #fff; font-family: 'Orbitron', monospace;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(129,140,248,0.3);
+}
+.send-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(129,140,248,0.4); }
+.send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.send-btn.buy-style { background: linear-gradient(135deg, #f472b6, #fb7185); box-shadow: 0 4px 20px rgba(244,114,182,0.3); }
+.send-btn.buy-style:hover { box-shadow: 0 8px 30px rgba(244,114,182,0.4); }
+.close-btn {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.close-btn:hover { border-color: #ef4444; color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.2); }
+.success-msg {
+  text-align: center; padding: 16px; border-radius: 12px;
+  background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
+  color: var(--glow-teal); font-family: 'Orbitron', monospace;
+  font-size: 11px; letter-spacing: 1px; display: none; margin-top: 12px;
+}
+.error-msg { color: #ef4444; font-size: 12px; margin-top: -8px; margin-bottom: 8px; padding-left: 4px; display: none; }
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 48px 0; }
+.meeting-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 640px; }
+.meeting-form .full-width { grid-column: 1 / -1; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'Orbitron', monospace; }
+.form-group input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 16px;
+  color: var(--text); font-family: 'Rajdhani', sans-serif;
+  font-size: 15px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+.form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(129,140,248,0.1); }
+.form-group input.invalid { border-color: #ef4444; }
+.field-error { font-size: 11px; color: #ef4444; display: none; padding-left: 2px; }
+.submit-meeting-btn {
+  padding: 14px 32px; border-radius: 14px; border: none;
+  background: linear-gradient(135deg, var(--glow-teal), #059669);
+  color: #fff; font-family: 'Orbitron', monospace;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(52,211,153,0.25); grid-column: 1 / -1;
+}
+.submit-meeting-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(52,211,153,0.35); }
+.toast {
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #0d0d1f; border: 1px solid rgba(52,211,153,0.5);
+  border-radius: 14px; padding: 14px 28px;
+  color: var(--glow-teal); font-family: 'Orbitron', monospace;
+  font-size: 12px; letter-spacing: 1px; z-index: 999;
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { border-color: rgba(239,68,68,0.5); color: #ef4444; }
+footer {
+  text-align: center; padding: 48px 24px;
+  color: var(--muted); font-size: 12px; letter-spacing: 2px;
+  font-family: 'Orbitron', monospace;
+  border-top: 1px solid var(--border); margin-top: 48px;
+}
+@media (max-width: 600px) {
+  .meeting-form { grid-template-columns: 1fr; }
+  .meeting-form .full-width { grid-column: 1; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <svg class="pokeball-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(129,140,248,0.6)" stroke-width="3"/>
+      <path d="M2 50 Q2 2 50 2 Q98 2 98 50" fill="rgba(244,114,182,0.15)" stroke="none"/>
+      <path d="M2 50 Q2 98 50 98 Q98 98 98 50" fill="rgba(129,140,248,0.15)" stroke="none"/>
+      <line x1="2" y1="50" x2="98" y2="50" stroke="rgba(129,140,248,0.5)" stroke-width="3"/>
+      <circle cx="50" cy="50" r="14" fill="#080810" stroke="rgba(129,140,248,0.7)" stroke-width="3"/>
+      <circle cx="50" cy="50" r="7" fill="rgba(244,114,182,0.7)"/>
+    </svg>
+    <h1>ANVIK'S POKÉMON MARKET</h1>
+    <p class="header-sub">Secure Trading Interface</p>
+    <div class="header-line"></div>
+  </header>
+
+  <section>
+    <p class="section-title">My Collection</p>
+    <div class="grid">
+
+      <div class="card" data-name="Zapdos ex" data-num="192/165 · 151">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/MEW/MEW_192_R_EN_LG.png" alt="Zapdos ex" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Zapdos ex</div>
+          <div class="card-num">192/165 · 151</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Medicham ex" data-num="054/102 · Stellar Miracle (JPN)">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SV7/SV7_054_R_JA_LG.png" alt="Medicham ex" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Medicham ex</div>
+          <div class="card-num">054/102 · Stellar Miracle (JPN)</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Pinsir" data-num="168/167 · Twilight Masquerade">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/TWM/TWM_168_R_EN_LG.png" alt="Pinsir" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Pinsir</div>
+          <div class="card-num">168/167 · Twilight Masquerade</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Sylveon V" data-num="SWSH202 · Promo">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SP/SP_202_R_EN_LG.png" alt="Sylveon V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Sylveon V</div>
+          <div class="card-num">SWSH202 · Promo</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Lugia V" data-num="SWSH301 · Promo (~$10)">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/SP/SP_301_R_EN_LG.png" alt="Lugia V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Lugia V</div>
+          <div class="card-num">SWSH301 · Promo (~$10)</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Alakazam ex" data-num="188/165 · 151">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/MEW/MEW_188_R_EN_LG.png" alt="Alakazam ex" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Alakazam ex</div>
+          <div class="card-num">188/165 · 151</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+      <div class="card" data-name="Lycanroc V" data-num="091/203 · Evolving Skies">
+        <img src="https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/EVS/EVS_091_R_EN_LG.png" alt="Lycanroc V" loading="lazy">
+        <div class="card-info">
+          <div class="card-name">Lycanroc V</div>
+          <div class="card-num">091/203 · Evolving Skies</div>
+          <div class="card-click-hint">tap to trade</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <p class="section-title">Schedule a Meeting</p>
+    <div class="meeting-form">
+      <div class="form-group">
+        <label for="meet-name">Your Name <span style="color:var(--glow-pink)">*</span></label>
+        <input type="text" id="meet-name" placeholder="Your name">
+        <span class="field-error" id="err-name">Please enter your name</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-date">Date <span style="color:var(--glow-pink)">*</span></label>
+        <input type="date" id="meet-date">
+        <span class="field-error" id="err-date">Please select a date</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-location">Location <span style="color:var(--glow-pink)">*</span></label>
+        <input type="text" id="meet-location" placeholder="e.g. Local game store">
+        <span class="field-error" id="err-location">Please enter a location</span>
+      </div>
+      <div class="form-group">
+        <label for="meet-email">Your Email <span style="color:var(--glow-pink)">*</span></label>
+        <input type="email" id="meet-email" placeholder="your@email.com">
+        <span class="field-error" id="err-email">Please enter a valid email</span>
+      </div>
+      <div class="form-group full-width">
+        <label for="meet-note">Note (optional)</label>
+        <input type="text" id="meet-note" placeholder="Any message for Anvik?">
+      </div>
+      <button class="submit-meeting-btn" onclick="submitMeeting()">SCHEDULE MEETING</button>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="modal-card-name" id="modalCardName">—</div>
+    <div class="modal-card-num" id="modalCardNum">—</div>
+    <div class="modal-btns">
+      <button class="modal-btn trade-btn" id="tradeBtn" onclick="setMode('trade')">⇄ TRADE</button>
+      <button class="modal-btn buy-btn" id="buyBtn" onclick="setMode('buy')">$ BUY</button>
+    </div>
+    <div class="form-area" id="formArea">
+      <label class="form-label">Your Name <span style="color:var(--glow-pink)">*</span></label>
+      <input type="text" id="formName" placeholder="Your name">
+      <span class="error-msg" id="nameError">Please enter your name</span>
+      <label class="form-label" id="formLabel">Trade Offer</label>
+      <textarea id="formInput" rows="3" placeholder="Describe your offer..."></textarea>
+      <span class="error-msg" id="inputError">Please fill in this field</span>
+      <label class="form-label">Your Email <span style="color:var(--glow-pink)">*</span></label>
+      <input type="email" id="formEmail" placeholder="your@email.com">
+      <span class="error-msg" id="emailError">Please enter a valid email</span>
+      <button class="send-btn" id="sendBtn" onclick="sendRequest()">SEND REQUEST</button>
+    </div>
+    <div class="success-msg" id="successMsg">✓ REQUEST SENT SUCCESSFULLY</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>ANVIK'S POKÉMON MARKET · SECURE TRADING INTERFACE</footer>
+
+<script>
+emailjs.init({ publicKey: 'vhlH7Lv-q35WMm1_p' });
+
+const EMAILJS_SERVICE_ID = 'service_dnhtqho';
+const TEMPLATE_ID        = 'template_uawt115';
+
+let currentCard = { name: '', num: '' };
+let currentMode = null;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    currentCard.name = card.dataset.name;
+    currentCard.num  = card.dataset.num;
+    document.getElementById('modalCardName').textContent = currentCard.name;
+    document.getElementById('modalCardNum').textContent  = currentCard.num;
+    currentMode = null;
+    document.getElementById('tradeBtn').classList.remove('active');
+    document.getElementById('buyBtn').classList.remove('active');
+    document.getElementById('formArea').classList.remove('open');
+    document.getElementById('successMsg').style.display = 'none';
+    document.getElementById('formInput').value = '';
+    document.getElementById('formEmail').value = '';
+    document.getElementById('formName').value  = '';
+    hideErrors();
+    document.getElementById('modalOverlay').classList.add('active');
+  });
+});
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('tradeBtn').classList.toggle('active', mode === 'trade');
+  document.getElementById('buyBtn').classList.toggle('active', mode === 'buy');
+  const label   = document.getElementById('formLabel');
+  const input   = document.getElementById('formInput');
+  const sendBtn = document.getElementById('sendBtn');
+  if (mode === 'trade') {
+    label.textContent   = 'Your Trade Offer';
+    input.placeholder   = 'What are you offering in return?';
+    sendBtn.className   = 'send-btn';
+    sendBtn.textContent = 'SEND TRADE OFFER';
+  } else {
+    label.textContent   = 'Your Offer Price';
+    input.placeholder   = 'How much are you offering? (e.g. $25)';
+    sendBtn.className   = 'send-btn buy-style';
+    sendBtn.textContent = 'SEND BUY OFFER';
+  }
+  document.getElementById('successMsg').style.display = 'none';
+  hideErrors();
+  document.getElementById('formArea').classList.add('open');
+}
+function hideErrors() {
+  ['inputError','emailError','nameError'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('formInput').style.borderColor = '';
+  document.getElementById('formEmail').style.borderColor = '';
+  document.getElementById('formName').style.borderColor  = '';
+}
+function sendRequest() {
+  const nameVal  = document.getElementById('formName').value.trim();
+  const inputVal = document.getElementById('formInput').value.trim();
+  const emailVal = document.getElementById('formEmail').value.trim();
+  let valid = true;
+  hideErrors();
+  if (!nameVal)  { document.getElementById('nameError').style.display = 'block';  document.getElementById('formName').style.borderColor  = '#ef4444'; valid = false; }
+  if (!inputVal) { document.getElementById('inputError').style.display = 'block'; document.getElementById('formInput').style.borderColor = '#ef4444'; valid = false; }
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { document.getElementById('emailError').style.display = 'block'; document.getElementById('formEmail').style.borderColor = '#ef4444'; valid = false; }
+  if (!valid) return;
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true; btn.textContent = 'SENDING...';
+  emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_ID, {
+    user_name:  nameVal,
+    user_email: emailVal,
+    card:       currentCard.name + ' · ' + currentCard.num,
+    type:       currentMode === 'trade' ? 'TRADE' : 'BUY',
+    time:       new Date().toLocaleString(),
+    location:   currentMode === 'trade' ? 'Trade offer: ' + inputVal : 'Buy offer: ' + inputVal,
+  }).then(() => {
+    document.getElementById('formArea').classList.remove('open');
+    document.getElementById('successMsg').style.display = 'block';
+    showToast('Request sent!', false);
+    setTimeout(closeModal, 2000);
+  }).catch(err => {
+    console.error('EmailJS error:', JSON.stringify(err));
+    showToast('Error ' + (err.status || '') + ': ' + (err.text || 'check console'), true);
+  }).finally(() => {
+    btn.disabled = false;
+    btn.textContent = currentMode === 'trade' ? 'SEND TRADE OFFER' : 'SEND BUY OFFER';
+  });
+}
+function submitMeeting() {
+  const nameVal     = document.getElementById('meet-name').value.trim();
+  const dateVal     = document.getElementById('meet-date').value;
+  const locationVal = document.getElementById('meet-location').value.trim();
+  const emailVal    = document.getElementById('meet-email').value.trim();
+  const noteVal     = document.getElementById('meet-note').value.trim();
+  ['name','date','location','email'].forEach(f => {
+    document.getElementById('err-' + f).style.display = 'none';
+    document.getElementById('meet-' + f).classList.remove('invalid');
+  });
+  let valid = true;
+  if (!nameVal)     { document.getElementById('err-name').style.display = 'block';     document.getElementById('meet-name').classList.add('invalid');     valid = false; }
+  if (!dateVal)     { document.getElementById('err-date').style.display = 'block';     document.getElementById('meet-date').classList.add('invalid');     valid = false; }
+  if (!locationVal) { document.getElementById('err-location').style.display = 'block'; document.getElementById('meet-location').classList.add('invalid'); valid = false; }
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { document.getElementById('err-email').style.display = 'block'; document.getElementById('meet-email').classList.add('invalid'); valid = false; }
+  if (!valid) return;
+  const btn = document.querySelector('.submit-meeting-btn');
+  btn.disabled = true; btn.textContent = 'SENDING...';
+  emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_ID, {
+    user_name:  nameVal,
+    user_email: emailVal,
+    card:       'N/A — Meeting Request',
+    type:       'MEETING',
+    time:       dateVal,
+    location:   locationVal + (noteVal ? ' — Note: ' + noteVal : ''),
+  }).then(() => {
+    showToast('Meeting request sent!', false);
+    ['meet-name','meet-date','meet-location','meet-email','meet-note'].forEach(id => document.getElementById(id).value = '');
+  }).catch(err => {
+    console.error('EmailJS error:', JSON.stringify(err));
+    showToast('Error ' + (err.status || '') + ': ' + (err.text || 'check console'), true);
+  }).finally(() => {
+    btn.disabled = false; btn.textContent = 'SCHEDULE MEETING';
+  });
+}
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = isError ? '⚠ ' + msg : '✓ ' + msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  void t.offsetWidth;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
