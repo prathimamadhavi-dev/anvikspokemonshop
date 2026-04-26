@@ -1,69 +1,44 @@
-let selected = "";
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let meetings = JSON.parse(localStorage.getItem("meetings")) || [];
-document.querySelectorAll(".card").forEach(card => {
-  card.onclick = () => {
-    selected = card.dataset.name;
-    document.getElementById("selectedCard").innerText = selected;
-    document.getElementById("panel").classList.remove("hidden");
-  };
+const searchBar = document.getElementById("searchBar");
+const cards = document.querySelectorAll(".card");
+const meetingForm = document.getElementById("meetingForm");
+const submissionsList = document.getElementById("submissionsList");
+
+searchBar.addEventListener("input", () => {
+  const value = searchBar.value.toLowerCase();
+
+  cards.forEach((card) => {
+    const text = card.innerText.toLowerCase();
+
+    if (text.includes(value)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
 });
-function closePanel() {
-  document.getElementById("panel").classList.add("hidden");
-}
-function mode(type) {
-  let area = document.getElementById("formArea");
-  if (type === "trade") {
-    area.innerHTML = `
-      <input id="tradeText" placeholder="ENTER TRADE OFFER">
-      <button onclick="submitTrade()">SEND TRADE</button>
-    `;
+
+meetingForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const date = document.getElementById("date").value;
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !email || !date || !message) {
+    alert("Please fill in all fields.");
+    return;
   }
-  if (type === "buy") {
-    area.innerHTML = `
-      <input id="buyText" placeholder="ENTER BUY AMOUNT">
-      <button onclick="submitBuy()">SEND BUY</button>
-    `;
-  }
-}
-function submitTrade() {
-  submissions.push({
-    type: "TRADE",
-    card: selected,
-    message: document.getElementById("tradeText").value
-  });
-  save();
-  alert("TRADE SUBMITTED");
-}
-function submitBuy() {
-  submissions.push({
-    type: "BUY",
-    card: selected,
-    message: document.getElementById("buyText").value
-  });
-  save();
-  alert("BUY REQUEST SUBMITTED");
-}
-function addMeeting() {
-  meetings.push({
-    date: document.getElementById("date").value,
-    location: document.getElementById("location").value,
-    email: document.getElementById("email").value
-  });
-  localStorage.setItem("meetings", JSON.stringify(meetings));
-  alert("MEETING STORED");
-}
-function save() {
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-}
-function unlock() {
-  let pass = document.getElementById("pass").value;
-  if (pass === "974955isverycool21") {
-    document.getElementById("admin").classList.remove("hidden");
-    document.getElementById("admin").innerText =
-      "SUBMISSIONS:\n" + JSON.stringify(submissions, null, 2) +
-      "\n\nMEETINGS:\n" + JSON.stringify(meetings, null, 2);
-  } else {
-    alert("ACCESS DENIED");
-  }
-}
+
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <strong>Name:</strong> ${name}<br>
+    <strong>Email:</strong> ${email}<br>
+    <strong>Date:</strong> ${date}<br>
+    <strong>Message:</strong> ${message}
+  `;
+
+  submissionsList.appendChild(li);
+
+  meetingForm.reset();
+});
