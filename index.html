@@ -1,73 +1,251 @@
+# index.html
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Anvik's Pokémon Tech Market</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokeShop</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-  <h1>ANVIK'S POKÉMON MARKET</h1>
-  <p class="sub">Secure Trading Interface</p>
-</header>
-<section>
-  <h2>My Collection</h2>
-  <div class="grid">
-    <div class="card" data-name="Zapdos ex 192/165">
-      <img src="https://images.pokemontcg.io/sv3pt5/192_hires.png">
-      <span>Zapdos ex</span>
+  <header>
+    <h1>PokeShop</h1>
+    <input type="text" id="searchBar" placeholder="Search cards..." />
+  </header>
+
+  <section class="cards-container" id="cardsContainer">
+    <div class="card">
+      <img src="https://images.pokemontcg.io/sv3pt5/188_hires.png" alt="Alakazam EX" />
+      <h2>Alakazam EX Full Art</h2>
+      <p>151 #188/165</p>
     </div>
-    <div class="card" data-name="Medicham ex 054/102">
-      <img src="https://images.pokemontcg.io/jp/054.png">
-      <span>Medicham ex</span>
+
+    <div class="card">
+      <img src="https://images.pokemontcg.io/swsh7/74_hires.png" alt="Sylveon V" />
+      <h2>Sylveon V</h2>
+      <p>Evolving Skies</p>
     </div>
-    <div class="card" data-name="Pinsir 168/167">
-      <img src="https://images.pokemontcg.io/sv3pt5/168_hires.png">
-      <span>Pinsir</span>
+
+    <div class="card">
+      <img src="https://images.pokemontcg.io/swsh12pt5gg/GG44_hires.png" alt="Lugia" />
+      <h2>Lugia</h2>
+      <p>Crown Zenith</p>
     </div>
-    <div class="card" data-name="Sylveon V SWSH202">
-      <img src="https://images.pokemontcg.io/swsh7/202.png">
-      <span>Sylveon V</span>
+
+    <div class="card">
+      <img src="https://images.pokemontcg.io/swsh10/48_hires.png" alt="Lycanroc" />
+      <h2>Lycanroc</h2>
+      <p>Astral Radiance</p>
     </div>
-    <div class="card" data-name="Lugia V SWSH301">
-      <img src="https://images.pokemontcg.io/swsh9/301.png">
-      <span>Lugia V</span>
+
+    <div class="card">
+      <img src="https://images.pokemontcg.io/base1/25_hires.png" alt="Zapdos" />
+      <h2>Zapdos</h2>
+      <p>Base Set</p>
     </div>
-    <div class="card" data-name="Eevee V SWSH065">
-      <img src="https://images.pokemontcg.io/swsh6/65.png">
-      <span>Eevee V</span>
+
+    <div class="card">
+      <img src="https://images.pokemontcg.io/jungle/9_hires.png" alt="Pinsir" />
+      <h2>Pinsir</h2>
+      <p>Jungle Set</p>
     </div>
-    <div class="card" data-name="Lycanroc V 091/203">
-      <img src="https://images.pokemontcg.io/swsh7/91.png">
-      <span>Lycanroc V</span>
+  </section>
+
+  <section class="meeting-section">
+    <h2>Schedule a Meeting</h2>
+    <form id="meetingForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="email" id="email" placeholder="Your Email" required />
+      <input type="date" id="date" required />
+      <textarea id="message" placeholder="Message" required></textarea>
+      <button type="submit">Schedule</button>
+    </form>
+
+    <div id="submissionsPanel">
+      <h3>Meeting Submissions</h3>
+      <ul id="submissionsList"></ul>
     </div>
-  </div>
-</section>
-<!-- PANEL -->
-<div id="panel" class="panel hidden">
-  <h2 id="selectedCard">SELECTED</h2>
-  <div class="btnRow">
-    <button onclick="mode('trade')">TRADE</button>
-    <button onclick="mode('buy')">BUY</button>
-  </div>
-  <div id="formArea"></div>
-  <button class="closeBtn" onclick="closePanel()">CLOSE</button>
-</div>
-<hr>
-<section>
-  <h2>Schedule Secure Meeting</h2>
-  <input id="date" type="date">
-  <input id="location" placeholder="Location">
-  <input id="email" placeholder="Email (optional)">
-  <button onclick="addMeeting()">Submit</button>
-</section>
-<hr>
-<section>
-  <h2>COMMAND TERMINAL</h2>
-  <input id="pass" type="password" placeholder="Enter Access Code">
-  <button onclick="unlock()">UNLOCK</button>
-  <pre id="admin" class="hidden"></pre>
-</section>
-<script src="script.js"></script>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
+```
+
+---
+
+# style.css
+
+```css
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+header {
+  background: #ef4444;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 10px;
+  font-size: 3rem;
+}
+
+#searchBar {
+  width: 60%;
+  max-width: 400px;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 16px;
+}
+
+.card h2 {
+  margin-top: 15px;
+  font-size: 1.4rem;
+}
+
+.card p {
+  color: #6b7280;
+}
+
+.meeting-section {
+  background: white;
+  margin: 30px;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#meetingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#meetingForm input,
+#meetingForm textarea {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+#meetingForm button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#meetingForm button:hover {
+  background: #dc2626;
+}
+
+#submissionsPanel {
+  margin-top: 30px;
+}
+
+#submissionsList {
+  list-style: none;
+  padding: 0;
+}
+
+#submissionsList li {
+  background: #f9fafb;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+```
+
+---
+
+# script.js
+
+```javascript
+const searchBar = document.getElementById("searchBar");
+const cards = document.querySelectorAll(".card");
+const meetingForm = document.getElementById("meetingForm");
+const submissionsList = document.getElementById("submissionsList");
+
+searchBar.addEventListener("input", () => {
+  const value = searchBar.value.toLowerCase();
+
+  cards.forEach((card) => {
+    const text = card.innerText.toLowerCase();
+
+    if (text.includes(value)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+});
+
+meetingForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const date = document.getElementById("date").value;
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !email || !date || !message) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <strong>Name:</strong> ${name}<br>
+    <strong>Email:</strong> ${email}<br>
+    <strong>Date:</strong> ${date}<br>
+    <strong>Message:</strong> ${message}
+  `;
+
+  submissionsList.appendChild(li);
+
+  meetingForm.reset();
+});
+```
